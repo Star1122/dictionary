@@ -3,6 +3,7 @@ import * as History from 'history';
 import thunk from 'redux-thunk';
 
 import rootReducer from './reducers';
+import { verifyAuth } from './auth/actions';
 
 const initialState = {};
 const enhancers = [];
@@ -22,4 +23,7 @@ const composedEnhancers = compose(
   ...enhancers,
 );
 
-export default createStore(rootReducer(history), initialState, composedEnhancers);
+const store = createStore(rootReducer(history), initialState, composedEnhancers);
+store.dispatch(verifyAuth());
+
+export default store;

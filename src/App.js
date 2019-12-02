@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { Switch, withRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import makeStyles from '@material-ui/styles/makeStyles';
 
-import PublicRoute from 'routes/PublicRoute';
+import { PrivateRoute, PublicRoute } from 'routes';
 
 import { LeftDrawer, TopBar } from 'components/layout';
 
+import Login from 'containers/Login';
+import SignUp from 'containers/SignUp';
 import Home from 'containers/Home';
 
 const useStyles = makeStyles((theme) => ({
@@ -59,12 +62,10 @@ const App = (props) => {
 
           <div className={classes.appContent}>
             <Switch>
-              <PublicRoute
-                exact
-                path="/"
-                component={Home}
-                props={props}
-              />
+              <PublicRoute exact path="/login" component={Login} props={props} />
+              <PublicRoute exact path="/signup" component={SignUp} props={props} />
+
+              <PrivateRoute exact path="/" component={Home} props={props} />
             </Switch>
           </div>
         </main>
@@ -73,4 +74,9 @@ const App = (props) => {
   );
 };
 
-export default withRouter(App);
+const mapStateToProps = (store) => ({
+  isVerifying: store.auth.isVerifying,
+  isAuthenticated: store.auth.isAuthenticated,
+});
+
+export default withRouter(connect(mapStateToProps)(App));
