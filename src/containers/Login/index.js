@@ -16,7 +16,7 @@ import { confirmMessage } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    position: 'absolute',
+    position: 'fixed',
     left: 0,
     top: 0,
     right: 0,
@@ -61,8 +61,8 @@ function Login(props) {
       .then(() => {
         history.push('/');
       })
-      .catch((e) => {
-        confirmMessage(enqueueSnackbar, e.message, 'error');
+      .catch((error) => {
+        confirmMessage(enqueueSnackbar, error.message, 'error');
       });
   };
 

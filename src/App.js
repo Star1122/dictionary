@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Switch, withRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import makeStyles from '@material-ui/styles/makeStyles';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 
 import { PrivateRoute, PublicRoute } from 'routes';
 
@@ -55,18 +56,25 @@ const App = (props) => {
       <div className={classes.root}>
         <TopBar open={open} handleDrawerOpen={handleDrawerOpen} />
 
-        <LeftDrawer open={open} handleDrawerClose={handleDrawerClose} />
+        <LeftDrawer open={open} handleDrawerClose={handleDrawerClose} {...props} />
 
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
 
           <div className={classes.appContent}>
-            <Switch>
-              <PublicRoute exact path="/login" component={Login} props={props} />
-              <PublicRoute exact path="/signup" component={SignUp} props={props} />
+            <PerfectScrollbar
+              options={{
+                suppressScrollX: true,
+                minScrollbarLength: 50,
+              }}
+            >
+              <Switch>
+                <PublicRoute exact path="/login" component={Login} props={props} />
+                <PublicRoute exact path="/signup" component={SignUp} props={props} />
 
-              <PrivateRoute exact path="/" component={Home} props={props} />
-            </Switch>
+                <PrivateRoute exact path="/" component={Home} props={props} />
+              </Switch>
+            </PerfectScrollbar>
           </div>
         </main>
       </div>
